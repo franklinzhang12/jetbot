@@ -38,5 +38,5 @@ cd ~/jetbot
 ### Testing
 Test motors with:
 ```
-python3 motor\_test.py
+python3 motor_test.py
 ```
