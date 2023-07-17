@@ -17,6 +17,7 @@ Use the spacebar to select PyTorch installation when requested
 ```
 sudo apt-get update
 sudo apt-get install git cmake libpython3-dev python3-numpy
+cd ~
 git clone --recursive https://github.com/dusty-nv/jetson-inference
 cd jetson-inference
 mkdir build
