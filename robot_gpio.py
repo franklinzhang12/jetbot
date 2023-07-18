@@ -1,18 +1,9 @@
-# TODO: 
-# - Get Robot parameter initialization to work -- DONE
-# - Implement automatic calibration for motors
-#+   - Set up right_multiplier, beta parameters
-#   - Create function that continuously adjusts and prints parameters for one motor only, letting user decide correct ones
-#       - Focus on right_multiplier
-#   - Put right_multiplier and beta parameters into robot initialization parameters
-
-
 import RPi.GPIO as GPIO
 import atexit
 GPIO.setmode(GPIO.BOARD)
 
 class Robot():
-    def __init__(self, left_multiplier=1, right_multiplier=1, IN1=19, IN2=32, IN3=33, IN4=13, PWM_freq=100, PWM_forward=False, max_speed=1):
+    def __init__(self, left_multiplier=1, right_multiplier=1, IN1=22, IN2=32, IN3=33, IN4=23, PWM_freq=100, PWM_forward=False, max_speed=1):
         self.left_multiplier = left_multiplier
         self.right_multiplier = right_multiplier
         self.IN1 = IN1
