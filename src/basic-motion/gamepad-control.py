@@ -4,7 +4,7 @@ import sys
 sys.path.insert(1, '/home/jetbot/jetbot')
 
 import inputs
-from robot_gpio import Robot
+from jetbot import Robot
 
 robot = Robot()
 

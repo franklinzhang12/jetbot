@@ -1,4 +1,3 @@
-
 import jetson.utils
 import argparse
 import numpy as np

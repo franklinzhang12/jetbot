@@ -1,4 +1,4 @@
-# Take video on Jetson Nano, filter out blurry frames, and send them over SSH to /tmp/test on a desired device
+# Take video on Jetson Nano, filter out blurry frames, and send them live over SSH to /tmp/test on a desired device
 # Must specify target device username and IP, and make /tmp/test directory
 # Must setup automatic SSH login from this device to target device: https://linuxize.com/post/how-to-setup-passwordless-ssh-login/
 
@@ -18,13 +18,12 @@ import sys
 IP = 'ADD.IP.ADDRESS.HERE'
 username = 'USERNAME'
 
-def dirSetup(thresholds, dirOut=None, logname='log.txt'):
+def dirSetup(dirOut=None, logname='log.txt'):
     """Set up output directories, creating individual directories for thresholds and a logfile.
 
     Returns the name of the log file and the directories.
 
     Arguments:
-    thresholds (list of ints) - Variance of Laplacian thresholds
     dirOut (string) - directory name containing output images (need not already exist), or None (auto-create)
     logname (string) - desired name of log file
     """
@@ -43,12 +42,7 @@ def dirSetup(thresholds, dirOut=None, logname='log.txt'):
     logfile = open(vidDir + '/' + logname, 'a')
     logfile.write('-------------- NEW --------------\n')
 
-    # Create individual frame directories: 'f' + threshold
-    #for n in thresholds:
-    #    frameDirs.append(vidDir + '/f' + str(n))
-    #    Path(vidDir + '/f' + str(n)).mkdir(exist_ok=True)
-
-    return vidDir, logfile, num#, frameDirs
+    return vidDir, logfile, num
 
 
 # From https://stackoverflow.com/a/19202764
@@ -83,8 +77,6 @@ parser.add_argument("--height", type=int, default=360, help="desired height of c
 parser.add_argument("--camera", type=str, default="0", help="index of the MIPI CSI camera to use (NULL for CSI camera 0), or for VL42 cameras the /dev/video node to use (e.g. /dev/video0).  By default, MIPI CSI camera 0 will be used.")
 parser.add_argument('--headless', action='store_true', default=(), help="run without display")
 parser.add_argument("--dirOut", default=None, help="desired output directory name (optional)")
-parser.add_argument("--thresholds", nargs='+', type=int, default=[100], help="Laplacian thresholds to try for checking frame clarity, in descending order")
-parser.add_argument("--gapMultiplier", default=1, type=int, help="set rate of frame skipping (default 1)")
 
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 try:
@@ -100,7 +92,7 @@ skipped_frames = 0
 image_num = 0
 threshold = 70
 
-vidDir, logfile, num = dirSetup(opt.thresholds, dirOut=opt.dirOut)
+vidDir, logfile, num = dirSetup(dirOut=opt.dirOut)
 #logfile.close()
 
 # create display window

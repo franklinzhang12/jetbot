@@ -8,7 +8,7 @@ import jetson.utils
 import argparse
 import numpy as np
 import os
-from robot_gpio import Robot
+from jetbot import Robot
 
 import sys
 import inputs

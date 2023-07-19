@@ -11,7 +11,7 @@ import time
 
 from operator import attrgetter
 
-from robot_gpio import Robot
+from jetbot import Robot
 robot = Robot(left_multiplier=0.95)
 
 IP = "10.131.132.162"

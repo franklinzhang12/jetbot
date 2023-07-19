@@ -39,16 +39,17 @@ cd ~/jetbot
 ### Testing
 Test motors with:
 ```
-cd ~/jetbot
+cd ~/jetbot/jetbot
 python3 motor_test.py
 ```
 For camera testing:
 - If the Jetson Nano is connected to a monitor, run
 
 ```nvgstcapture-1.0```
-- Otherwise, to view the camera feed remotmely, run the following with jetson-inference installed:
+- Otherwise, to view the camera feed remotely, run the following with jetson-inference installed:
 
 ```video-viewer csi://0 rtp://IP:1234 --input-flip=rotate-180    # replace IP with IP address of receiving device```
+
 and run the following on the receiving device:
 ```
 gst-launch-1.0 -v udpsrc port=1234 \
@@ -59,7 +60,7 @@ gst-launch-1.0 -v udpsrc port=1234 \
 ### Movement
 A gamepad controller can be used to move the robot:
 ```
-cd ~/jetbot/src/basic-op
+cd ~/jetbot/src/basic-motion
 sudo python3 gamepad-control.py
 ```
 
