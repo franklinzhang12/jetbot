@@ -10,8 +10,10 @@ git clone https://github.com/franklinzhang12/jetbot.git
 cd jetbot
 ./install.sh
 ```
+Use the spacebar to select PyTorch installation when requested.
 
 ### Install [jetson-inference](https://github.com/dusty-nv/jetson-inference/tree/master)
+NO LONGER NEEDED -- added to install.sh
 
 Use the spacebar to select PyTorch installation when requested.
 ```
@@ -46,9 +48,9 @@ For camera testing:
 - If the Jetson Nano is connected to a monitor, run
 
 ```nvgstcapture-1.0```
-- Otherwise, to view the camera feed remotely, run the following with jetson-inference installed:
+- Otherwise, to view the camera feed remotely, run the following with jetson-inference installed (replace ```IP``` with address of receiving device):
 
-```video-viewer csi://0 rtp://IP:1234 --input-flip=rotate-180    # replace IP with IP address of receiving device```
+```video-viewer csi://0 rtp://IP:1234 --input-flip=rotate-180```
 
 and run the following on the receiving device:
 ```
