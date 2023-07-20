@@ -61,14 +61,14 @@ class Robot():
     def set_left_motor(self, left_velocity):
         mapped_vel = self.map_velocity(left_velocity) * self.left_multiplier
         if (self.PWM_forward and mapped_vel >= 0) or (not self.PWM_forward and mapped_vel <= 0):
+            self.p_left.ChangeDutyCycle(abs(mapped_vel))
+            GPIO.output(self.IN3, GPIO.LOW)
+        else: 
             GPIO.output(self.IN3, GPIO.HIGH)
             if mapped_vel < 0:
                 self.p_left.ChangeDutyCycle(100 + mapped_vel)
             else:
                 self.p_left.ChangeDutyCycle(100 - mapped_vel)
-        else: 
-            self.p_left.ChangeDutyCycle(abs(mapped_vel))
-            GPIO.output(self.IN3, GPIO.LOW)
 
 
     def set_right_motor(self, right_velocity):

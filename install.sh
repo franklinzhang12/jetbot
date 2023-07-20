@@ -21,7 +21,8 @@ sudo ldconfig
 
 
 # Other packages
-sudo pip3 uninstall Pillow && pip3 install Pillow==8.0.1
+sudo pip3 uninstall Pillow
+yes | pip3 install Pillow==8.0.1
 pip3 install --upgrade setuptools
 pip3 install pyzmq
 pip3 install keyboard inputs traitlets packaging ipywidgets

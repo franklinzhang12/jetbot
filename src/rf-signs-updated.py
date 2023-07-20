@@ -12,10 +12,10 @@ import time
 from operator import attrgetter
 
 from jetbot import Robot
-robot = Robot(left_multiplier=0.95)
+robot = Robot()
 
 IP = "10.131.132.162"
-max_speed = 0.9
+max_speed = 1.0
 
 def fractional_coord(bbox, direction, frac):
     """Find location that's a fraction of the way right/down the bounding box"""
@@ -39,14 +39,14 @@ def rl_follow_dir(rl, conditions=True, offset=0):
         # Adjust if the line is fully on one side.
         # Otherwise, continue straight.
         center = image1.width / 2 - offset * image1.width / 2
-        epsilon = image1.width / 20
+        epsilon = image1.width / 10
         line_center = (rl.Left + rl.Right) / 2
-        if rl.Left > center - epsilon or line_center > 2 * image1.width / 3:
-            robot.set_motors((0.45 + offset / 4) * max_speed, 0.25 * max_speed)
-        elif rl.Right < center + epsilon or line_center < image1.width / 3:
-            robot.set_motors(0.25 * max_speed, (0.45 - offset / 4) * max_speed)
+        if line_center > center + epsilon or rl.Left > center - epsilon / 2:
+            robot.set_motors((0.5 + offset / 4) * max_speed, 0.3 * max_speed)
+        elif line_center < center - epsilon or rl.Right < center + epsilon / 2:
+            robot.set_motors(0.3 * max_speed, (0.5 - offset / 4) * max_speed)
         else:
-            robot.set_motors(0.45 * max_speed, 0.45 * max_speed)
+            robot.set_motors(0.5 * max_speed, 0.5 * max_speed)
         return True
     else:
         return False
@@ -130,10 +130,10 @@ if __name__ == '__main__':
             if not appropriate_line:
                 strikes += 1
                 if strikes % 4 == 0:
-                    robot.set_motors(0.3 * max_speed, -0.3 * max_speed)
+                    robot.set_motors(0.3 * max_speed, 0.3 * max_speed)
                     time.sleep(0.2)
                 elif strikes % 4 == 1:
-                    robot.set_motors(-0.3 * max_speed, 0.3 * max_speed)
+                    robot.set_motors(0.3 * max_speed, 0.3 * max_speed)
                     time.sleep(0.2)
                 robot.stop()
                 time.sleep(0.2)
@@ -160,19 +160,19 @@ if __name__ == '__main__':
                         # correct green line (new state).
                         state = "left-turn"
                         print("LEFT")
-                        robot.set_motors(0.40 * max_speed, 0.6*max_speed)
+                        robot.set_motors(0.47 * max_speed, 0.7 * max_speed)
                         time.sleep(0.6 / max_speed)
                         robot.stop()
                     elif sign.ClassID == 2:
                         state = "right-turn"
                         print("RIGHT")
-                        robot.set_motors(0.70 * max_speed, -0.40 * max_speed)
+                        robot.set_motors(0.80 * max_speed, -0.30 * max_speed)
                         time.sleep(0.2 / max_speed)
                         robot.stop()
                     elif sign.ClassID == 3:
                         state = "u-turn-finish"
                         print("U-TURN")
-                        robot.set_motors(0.2 * max_speed, 0.9*max_speed)
+                        robot.set_motors(0.2 * max_speed, 0.9 * max_speed)
                         time.sleep(0.7 / max_speed)
                         robot.stop()
             if len(signs) == 0 or not valid_sign:
@@ -180,6 +180,8 @@ if __name__ == '__main__':
                 if strikes == 3:
                     # After the robot fails to detect any signs 3 frames in a row, proceed straight forward.
                     print("STRAIGHT")
+                    robot.set_motors(0.50 * max_speed, 0.50 * max_speed)
+                    time.sleep(0.8 / max_speed)
                     state = "straight"
                     strikes = 0
                     count = 0
@@ -205,7 +207,8 @@ if __name__ == '__main__':
                     # good green lines do not have their center on the right half
                     elif fractional_coord(gl, "x", 0.5) > image1.width/2 and gl.Right > image1.width * 0.9:
                         far_right = True
-                    elif fractional_coord(gl, "x", 0.3) < image1.width/4:
+                    #elif fractional_coord(gl, "x", 0.3) < image1.width/4:
+                    elif gl.Left < image1.width/10:
                         far_left = True
                 if not above_orange and not far_right and not far_left:
                     final_green_candidates.append(gl)
@@ -220,9 +223,9 @@ if __name__ == '__main__':
             else:
                 count += 1
                 if count % 4 == 0:
-                    robot.set_motors(0.2 * max_speed, 0.35 * max_speed)
+                    robot.set_motors(0.23 * max_speed, 0.39 * max_speed)
                 elif count % 4 == 2:
-                    robot.set_motors(0.4 * max_speed, 0.2 * max_speed)
+                    robot.set_motors(0.39 * max_speed, 0.23 * max_speed)
 
                 time.sleep(0.2)
                 robot.stop()
@@ -251,12 +254,12 @@ if __name__ == '__main__':
             if len(final_green_candidates) > 0:
                 # if there are still multiple lines, follow the rightmost one
                 best_green_line = max(final_green_candidates, key=attrgetter("Right"))    
-                rl_follow_dir(best_green_line, conditions=False)
-                if best_green_line.Bottom > 6 * image1.height / 7 and best_green_line.Right - best_green_line.Left < image1.width / 3 and best_green_line.Right > image1.width / 2:
+                rl_follow_dir(best_green_line, conditions=False, offset=-0.1)
+                if best_green_line.Bottom > 6 * image1.height / 7 and best_green_line.Right - best_green_line.Left < image1.width * 0.4 and best_green_line.Right > image1.width / 2:
                     state = "rf"
                     print("RF")
             else:
-                robot.set_motors(0.3 * max_speed, 0.5 * max_speed)
+                robot.set_motors(0.36 * max_speed, 0.6 * max_speed)
                 time.sleep(0.2)
                 robot.stop()
 
@@ -300,8 +303,8 @@ if __name__ == '__main__':
             elif len(green_lines) > 1:
                 best_green_line = max(green_lines, key=attrgetter("Area"))
 
-            if best_green_line is not None and rl_follow_dir(best_green_line, conditions=False, offset=-0.2):
-                if best_green_line.Bottom > 6 * image1.height / 7 and best_green_line.Right - best_green_line.Left < image1.width / 4:
+            
+            if best_green_line is not None and rl_follow_dir(best_green_line, conditions=False, offset=-0.2) and best_green_line.Bottom > 6 * image1.height / 7 and best_green_line.Right - best_green_line.Left < image1.width * 0.6 and fractional_coord(best_green_line, "x", 0.5) > image1.width * 0.3 and fractional_coord(best_green_line, "x", 0.5) < image1.width * 0.7:
                     state = "rf"
                     print("RF")
             else:

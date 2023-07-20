@@ -12,24 +12,6 @@ cd jetbot
 ```
 Use the spacebar to select PyTorch installation when requested.
 
-### Install [jetson-inference](https://github.com/dusty-nv/jetson-inference/tree/master)
-NO LONGER NEEDED -- added to install.sh
-
-Use the spacebar to select PyTorch installation when requested.
-```
-sudo apt-get update
-sudo apt-get install git cmake libpython3-dev python3-numpy
-cd ~
-git clone --recursive https://github.com/dusty-nv/jetson-inference
-cd jetson-inference
-mkdir build
-cd build
-cmake -DENABLE_NVMM=OFF ../
-make -j2
-sudo make install
-sudo ldconfig
-```
-
 ## Usage
 
 Each time the JetBot is booted, run the setup script in the jetbot folder:

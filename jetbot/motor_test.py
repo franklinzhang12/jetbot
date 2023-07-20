@@ -1,5 +1,5 @@
 import time
-from robot import Robot
+from jetbot import Robot
 
 robot = Robot()
 robot.forward(0.6)
