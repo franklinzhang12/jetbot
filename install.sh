@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Preliminaries
-sudo apt-get update && sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python3-pip -y
 wget https://bootstrap.pypa.io/pip/3.6/get-pip.py
 python3 get-pip.py
@@ -21,8 +21,8 @@ sudo ldconfig
 
 
 # Other packages
-sudo pip3 uninstall Pillow
-yes | pip3 install Pillow==8.0.1
+yes | sudo pip3 uninstall Pillow
+pip3 install Pillow==8.0.1
 pip3 install --upgrade setuptools
 pip3 install pyzmq
 pip3 install keyboard inputs traitlets packaging ipywidgets
