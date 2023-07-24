@@ -9,6 +9,7 @@ cd ~
 git clone https://github.com/franklinzhang12/jetbot.git
 cd jetbot
 ./install.sh
+source ~/.bashrc
 ```
 Use the spacebar to select PyTorch installation when requested.
 

@@ -18,7 +18,7 @@ import time
 
 # Set these
 DATASET_PATH = './jetbotImg'  # Location to save images (must be created already)
-IP = '10.131.132.162'  # IP address of device receiving image over GStreamer
+IP = '216.96.192.108'  # IP address of device receiving image over GStreamer
 
 robot = Robot()
 pads = inputs.devices.gamepads
