@@ -305,10 +305,14 @@ if __name__ == '__main__':
 
             
             if best_green_line is not None and rl_follow_dir(best_green_line, conditions=False, offset=-0.2) and best_green_line.Bottom > 6 * image1.height / 7 and best_green_line.Right - best_green_line.Left < image1.width * 0.6 and fractional_coord(best_green_line, "x", 0.5) > image1.width * 0.3 and fractional_coord(best_green_line, "x", 0.5) < image1.width * 0.7:
+                    robot.set_motors(0.25 * max_speed, 0.8*max_speed)
+                    time.sleep(0.2)
+                    robot.stop()
+                    time.sleep(0.1)
                     state = "rf"
                     print("RF")
             else:
-                robot.set_motors(0.2 * max_speed, 0.9*max_speed)
+                robot.set_motors(0.25 * max_speed, 0.9*max_speed)
                 time.sleep(0.2)
                 robot.stop()
                 time.sleep(0.1)
