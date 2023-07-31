@@ -10,6 +10,10 @@ git clone https://github.com/franklinzhang12/jetbot.git
 cd jetbot
 ./install.sh
 source ~/.bashrc
+
+# to install tensorflow
+sh ./tf_install.sh      
+# the building of wheels for h5py and numpy take a while
 ```
 Use the spacebar to select PyTorch installation when requested.
 
