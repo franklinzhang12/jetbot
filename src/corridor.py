@@ -49,7 +49,7 @@ if __name__ == '__main__':
     sign_net = jetson.inference.detectNet(argv=['--threshold=0.8', '--model=/home/jetbot/jetbot/models/full-signs.onnx', '--labels=/home/jetbot/jetbot/models/sign-labels.txt', '--input-blob=input_0', '--output-cvg=scores', '--output-bbox=boxes'] )
     
     # load the recognition network (classification models)
-    class_net = jetson.inference.imageNet(opt.network, argv=['--model=/home/jetbot/jetbot/models/corridor_w_back.onnx', '--labels=/home/jetbot/jetbot/models/corridorLabels.txt', '--input-blob=input_0', '--output-blob=output_0'])
+    class_net = jetson.inference.imageNet(opt.network, argv=['--model=/home/jetbot/jetbot/models/corridor_final1.onnx', '--labels=/home/jetbot/jetbot/models/corridorLabels.txt', '--input-blob=input_0', '--output-blob=output_0'])
     
     # create video sources & outputs
     camera1 = jetson.utils.videoSource("csi://0", argv=sys.argv)
