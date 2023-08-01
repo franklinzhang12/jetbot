@@ -9,26 +9,13 @@ cd ~
 git clone https://github.com/franklinzhang12/jetbot.git
 cd jetbot
 ./install.sh
+source ~/.bashrc
+
+# to install tensorflow
+sh ./tf_install.sh
+# the building of wheels for h5py and numpy take a while
 ```
 Use the spacebar to select PyTorch installation when requested.
-
-### Install [jetson-inference](https://github.com/dusty-nv/jetson-inference/tree/master)
-NO LONGER NEEDED -- added to install.sh
-
-Use the spacebar to select PyTorch installation when requested.
-```
-sudo apt-get update
-sudo apt-get install git cmake libpython3-dev python3-numpy
-cd ~
-git clone --recursive https://github.com/dusty-nv/jetson-inference
-cd jetson-inference
-mkdir build
-cd build
-cmake -DENABLE_NVMM=OFF ../
-make -j2
-sudo make install
-sudo ldconfig
-```
 
 ## Usage
 
