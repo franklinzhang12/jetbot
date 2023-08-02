@@ -86,6 +86,7 @@ if __name__ == '__main__':
     
     # Robot starts to find a car to follow
     state = "finding_car"
+    left = False
     
     while True:
         # capture the next image
@@ -100,18 +101,26 @@ if __name__ == '__main__':
             state = "following_car"
         
         if state == "finding_car":
-            # turn right a little bit
             print("finding car")
-            robot.set_motors(fast_speed * speed_adjustment, 0.1 * speed_adjustment)
-            time.sleep(0.2)
+            if left:
+                # turn left a little bit
+                print("finding left")
+                robot.set_motors(slow_speed * speed_adjustment, fast_speed * speed_adjustment)
+                time.sleep(0.2)
+            else:
+                # turn right a little bit
+                print("finding right")
+                robot.set_motors(fast_speed * speed_adjustment, slow_speed * speed_adjustment)
+                time.sleep(0.2)
         
         elif state == "following_car":
             for car in cars:
                 #if the car is close
-                if car.Area > img_area/3:
+                if car.Area > img_area/4:
                     print("too close")
                     robot.stop()
-                elif car.Area < img.area/30:
+                    break
+                elif car.Area < img_area/20:
                     print("speeding up")
                     slow_speed = 0.3
                     fast_speed = 0.5
@@ -128,18 +137,20 @@ if __name__ == '__main__':
                 middle = (car.Left + car.Right) / 2
 
                 #if the car is on the left hand side
-                elif middle < image1.width * 0.4:
+                if middle < image1.width * 0.4:
                     print("left")
                     robot.set_motors(slow_speed * speed_adjustment, fast_speed * speed_adjustment)
-                    time.sleep(0.3)
+                    time.sleep(0.2)
                     robot.set_motors(fast_speed * speed_adjustment, fast_speed * speed_adjustment)
+                    left = True
 
                 #if the car is on the right hand side
                 elif middle > image1.width * 0.6:
                     print("right")
                     robot.set_motors(fast_speed * speed_adjustment, slow_speed * speed_adjustment)
-                    time.sleep(0.3)
+                    time.sleep(0.2)
                     robot.set_motors(fast_speed * speed_adjustment, fast_speed * speed_adjustment)
+                    left = False
                 
                 else:
                     print("center")
