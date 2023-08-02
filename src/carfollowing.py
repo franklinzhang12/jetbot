@@ -28,7 +28,7 @@ from jetbot import Robot
 #robot = Robot(left_multiplier=0.95)
 robot = Robot()
 
-max_speed = 2
+speed_adjustment = 2
 
 def fractional_coord(bbox, dir, frac):
     """Find location that's a fraction of the way right/down the bounding box"""
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     #display = jetson.utils.videoOutput("display://0", argv=sys.argv + is_headless)
 
     #### ADJUST IP ADDRESS to match the laptop's here
-    display = jetson.utils.videoOutput("rtp://216.96.231.106:1234", argv=sys.argv + is_headless)
+    display = jetson.utils.videoOutput("rtp://10.131.132.162:1234", argv=sys.argv + is_headless)
 
     font = jetson.utils.cudaFont()
     
@@ -100,7 +100,7 @@ if __name__ == '__main__':
         if state == "finding_car":
             # turn right a little bit
             print("finding car")
-            robot.set_motors(0.25 * max_speed, 0.1 * max_speed)
+            robot.set_motors(0.25 * speed_adjustment, 0.1 * speed_adjustment)
             time.sleep(0.2)
         
         elif state == "following_car":
@@ -115,27 +115,26 @@ if __name__ == '__main__':
                 #avg left and right?
                 #elif car.Left/image1.width == car.Right/image1.width:                
                 #    print("center")
-                #    robot.set_motors(0.2 * max_speed, 0.2 * max_speed)
+                #    robot.set_motors(0.2 * speed_adjustment, 0.2 * speed_adjustment)
+								middle = (car.Left + car.Right) / 2
 
                 #if the car is on the left hand side
-                elif car.Right < image1.width/2:
+                elif middle < image1.width * 0.4:
                     print("left")
-                    robot.set_motors(0.15 * max_speed, 0.25 * max_speed)
-                    time.sleep(0.5)
-                    robot.set_motors(0.25 * max_speed, 0.25 * max_speed)
-                    #robot.set_motors(0.1 * max_speed, 0.1 * max_speed)
+                    robot.set_motors(0.15 * speed_adjustment, 0.25 * speed_adjustment)
+                    time.sleep(0.3)
+                    robot.set_motors(0.25 * speed_adjustment, 0.25 * speed_adjustment)
 
                 #if the car is on the right hand side
-                elif car.Left > image1.width/2 :
+                elif middle > image1.width * 0.6:
                     print("right")
-                    robot.set_motors(0.25 * max_speed, 0.15 * max_speed)
-                    time.sleep(0.5)
-                    robot.set_motors(0.25 * max_speed, 0.25 * max_speed)
-                    #robot.set_motors(0.1 * max_speed, 0.1 * max_speed)
+                    robot.set_motors(0.25 * speed_adjustment, 0.15 * speed_adjustment)
+                    time.sleep(0.3)
+                    robot.set_motors(0.25 * speed_adjustment, 0.25 * speed_adjustment)
                 
                 else:
                     print("center")
-                    robot.set_motors(0.25 * max_speed, 0.25 * max_speed)
+                    robot.set_motors(0.25 * speed_adjustment, 0.25 * speed_adjustment)
 
         #displaying the image
         #render the image
