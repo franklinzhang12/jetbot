@@ -29,6 +29,8 @@ from jetbot import Robot
 robot = Robot()
 
 speed_adjustment = 2
+slow_speed = 0.15
+fast_speed = 0.25
 
 def fractional_coord(bbox, dir, frac):
     """Find location that's a fraction of the way right/down the bounding box"""
@@ -100,7 +102,7 @@ if __name__ == '__main__':
         if state == "finding_car":
             # turn right a little bit
             print("finding car")
-            robot.set_motors(0.25 * speed_adjustment, 0.1 * speed_adjustment)
+            robot.set_motors(fast_speed * speed_adjustment, 0.1 * speed_adjustment)
             time.sleep(0.2)
         
         elif state == "following_car":
@@ -109,6 +111,13 @@ if __name__ == '__main__':
                 if car.Area > img_area/3:
                     print("too close")
                     robot.stop()
+                elif car.Area < img.area/30:
+                    print("speeding up")
+                    slow_speed = 0.3
+                    fast_speed = 0.5
+                else:
+                    slow_speed = 0.15
+                    fast_speed = 0.25
                     
                 #if the car if not close  
                 #if the car is in the center of the image
@@ -116,25 +125,25 @@ if __name__ == '__main__':
                 #elif car.Left/image1.width == car.Right/image1.width:                
                 #    print("center")
                 #    robot.set_motors(0.2 * speed_adjustment, 0.2 * speed_adjustment)
-								middle = (car.Left + car.Right) / 2
+                middle = (car.Left + car.Right) / 2
 
                 #if the car is on the left hand side
                 elif middle < image1.width * 0.4:
                     print("left")
-                    robot.set_motors(0.15 * speed_adjustment, 0.25 * speed_adjustment)
+                    robot.set_motors(slow_speed * speed_adjustment, fast_speed * speed_adjustment)
                     time.sleep(0.3)
-                    robot.set_motors(0.25 * speed_adjustment, 0.25 * speed_adjustment)
+                    robot.set_motors(fast_speed * speed_adjustment, fast_speed * speed_adjustment)
 
                 #if the car is on the right hand side
                 elif middle > image1.width * 0.6:
                     print("right")
-                    robot.set_motors(0.25 * speed_adjustment, 0.15 * speed_adjustment)
+                    robot.set_motors(fast_speed * speed_adjustment, slow_speed * speed_adjustment)
                     time.sleep(0.3)
-                    robot.set_motors(0.25 * speed_adjustment, 0.25 * speed_adjustment)
+                    robot.set_motors(fast_speed * speed_adjustment, fast_speed * speed_adjustment)
                 
                 else:
                     print("center")
-                    robot.set_motors(0.25 * speed_adjustment, 0.25 * speed_adjustment)
+                    robot.set_motors(fast_speed * speed_adjustment, fast_speed * speed_adjustment)
 
         #displaying the image
         #render the image

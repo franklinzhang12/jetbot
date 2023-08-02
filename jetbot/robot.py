@@ -3,7 +3,7 @@ import atexit
 GPIO.setmode(GPIO.BOARD)
 
 class Robot():
-    def __init__(self, left_multiplier=0.6, right_multiplier=0.6, IN1=22, IN2=32, IN3=23, IN4=33, PWM_freq=100, PWM_forward=False, max_speed=1):
+    def __init__(self, left_multiplier=0.7, right_multiplier=0.7, IN1=22, IN2=32, IN3=23, IN4=33, PWM_freq=100, PWM_forward=False, max_speed=1):
         self.left_multiplier = left_multiplier
         self.right_multiplier = right_multiplier
         self.IN1 = IN1  # right
