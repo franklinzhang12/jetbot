@@ -1,6 +1,6 @@
 # JetBot
 
-Software setup for a simpler, cheaper JetBot controlled by GPIO pins
+Software setup for a simpler, cheaper JetBot controlled by GPIO pins.
 **See the Wiki for the most up-to-date documentation.**
 
 ## Installation
